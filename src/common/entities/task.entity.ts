@@ -13,6 +13,11 @@ export class Task extends CoreEntity {
   @Column({ type: 'varchar', name: 'order', default: '' })
   order: string;
 
+  @ManyToOne(() => User, (user) => user.tasks, {
+    eager: true,
+  })
+  owner: User;
+
   @OneToMany(() => Label, (label) => label.task, { onDelete: 'CASCADE' })
   labels: Label[];
 

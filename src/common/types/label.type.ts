@@ -4,6 +4,7 @@ type LabelType = {
   color?: string;
   text?: string;
   order?: number;
+  task?: { id: string };
 };
 
 export { type LabelType };

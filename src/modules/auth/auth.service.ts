@@ -1,7 +1,12 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import * as argon2 from 'argon2';
+import axios from 'axios';
 
 import { UserService } from 'modules/user/user.service';
 import { User } from 'src/common/entities';
@@ -48,6 +53,33 @@ export class AuthService {
       };
     } catch (error) {
       throw new BadRequestException('Login failed');
+    }
+  }
+
+  async logout(): Promise<void> {
+    axios.defaults.headers.common.Authorization = '';
+  }
+
+  async refresh(req: UserType): Promise<UserResponseType> {
+    try {
+      const refreshedUser: UserType = {
+        id: req.id,
+        email: req.email,
+        name: req.name,
+        country: req.country,
+      };
+
+      const refreshedToken = this.jwtService.sign({
+        id: req.id,
+        email: req.email,
+      });
+
+      return {
+        user: refreshedUser,
+        token: refreshedToken,
+      };
+    } catch (error) {
+      throw new UnauthorizedException('Token refresh failed');
     }
   }
 }

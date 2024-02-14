@@ -4,7 +4,6 @@ const ApiPath = {
   LOGIN: '/login',
   SIGNUP: 'users/signup',
   LOGOUT: '/logout',
-  REFRESH: '/refresh',
-  CURRENT: '/current',
+  REFRESH: '/current',
 } as const;
 export { ApiPath };

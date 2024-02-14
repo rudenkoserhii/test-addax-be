@@ -30,4 +30,21 @@ export class AuthController {
   login(@Request() req: UserType): Promise<UserResponseType> {
     return this.authService.login(req);
   }
+
+  @Post(ApiPath.LOGOUT)
+  @ApiOperation({ summary: 'Log out the currently authenticated user' })
+  @ApiResponse({ status: 200, description: 'User logged out successfully' })
+  async logout(): Promise<void> {
+    return this.authService.logout();
+  }
+
+  @Get(ApiPath.REFRESH)
+  @ApiOperation({ summary: 'Refresh the current user token' })
+  @ApiResponse({
+    status: 200,
+    description: 'User token refreshed successfully',
+  })
+  async refresh(@Request() req: UserType): Promise<UserResponseType> {
+    return this.authService.refresh(req);
+  }
 }
