@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*"],
+      "common/*": ["src/common/*"],
+      "modules/*": ["src/modules/*"],
+      "migrations/*": ["src/migrations/*"]
+    },
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "incremental": true,
+    "lib": ["ES2020", "DOM"],
+    "module": "commonjs",
+    "outDir": "./dist",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "target": "ES2015"
+  },
+  "include": ["src/migrations/*", "src/**/*"],
+  "exclude": ["node_modules"]
+}
