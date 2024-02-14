@@ -21,9 +21,9 @@ import {
 import { Server } from 'socket.io';
 
 import { ChatsByUserDto } from 'modules/chat/dto/chats-by-user.dto';
-import { CreateMessageDto } from 'modules/chat/dto/create-message.dto';
+import { CreateMessageDto } from 'src/modules/chat/dto/create-task.dto';
 import { ChatService } from 'modules/chat/services/chat.service';
-import { MessageService } from 'modules/chat/services/message.service';
+import { MessageService } from 'src/modules/chat/services/task.service';
 import { UserService } from 'modules/user/user.service';
 import { NotificationService } from 'modules/notification';
 import { Chat, User, Notification } from 'src/common/entities';

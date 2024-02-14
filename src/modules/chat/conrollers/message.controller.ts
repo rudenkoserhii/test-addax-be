@@ -10,8 +10,8 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from 'modules/auth/guards/jwt-auth.guard';
-import { CreateMessageDto } from 'modules/chat/dto/create-message.dto';
-import { MessageService } from 'modules/chat/services/message.service';
+import { CreateMessageDto } from 'src/modules/chat/dto/create-task.dto';
+import { MessageService } from 'src/modules/chat/services/task.service';
 import { Message } from 'src/common/entities/task.entity';
 import { MessageResponse } from 'src/common/types/message/message.type';
 

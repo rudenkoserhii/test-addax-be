@@ -21,4 +21,20 @@ export class CreateUserDto {
     message: 'The name must contain a minimum of 8 characters',
   })
   password: string;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    example: 'John Doe',
+    description: 'User name field',
+  })
+  @IsString()
+  name: string;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    example: 'UA',
+    description: 'User country field',
+  })
+  @IsString()
+  country: string;
 }

@@ -1,13 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
+
 import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 
-export class CreateMessageDto {
+export class CreateTaskDto {
   @ApiProperty({
     example: '3f9694ae-3241-48ef-b16b-32dc7d23e1d9',
-    description: 'Chat id',
+    description: 'Task id',
   })
   @IsNotEmpty()
-  chatId: string;
+  id: string;
 
   @ApiProperty({
     example: '12345678',

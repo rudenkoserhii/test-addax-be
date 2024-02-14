@@ -13,7 +13,7 @@ import { EventsModule } from '../events/events.module';
 import { ChatController } from './conrollers/chat.controller';
 import { MessageController } from './conrollers/message.controller';
 import { ChatService } from './services/chat.service';
-import { MessageService } from './services/message.service';
+import { MessageService } from './services/task.service';
 import { UserModule } from '../user/user.module';
 
 @Module({

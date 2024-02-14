@@ -9,7 +9,7 @@ import { ChatMessageReader } from 'src/common/entities/chatMessageReader.entity'
 import { Message } from 'src/common/entities/task.entity';
 import { User } from 'src/common/entities/user.entity';
 import { MessageResponse } from 'src/common/types/message/message.type';
-import { CreateMessageDto } from 'src/modules/chat/dto/create-message.dto';
+import { CreateMessageDto } from 'src/modules/chat/dto/create-task.dto';
 
 @Injectable()
 export class MessageService {
