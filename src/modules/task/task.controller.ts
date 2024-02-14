@@ -32,7 +32,7 @@ export class TaskController {
   @ApiOperation({ summary: 'Getting all tasks' })
   @ApiResponse({ status: 200, description: 'OK' })
   @ApiResponse({ status: 404, description: 'Not found' })
-  getChats(@Request() req: { user: { id: string } }): Promise<Task[]> {
+  getTasks(@Request() req: { user: { id: string } }): Promise<Task[]> {
     return this.taskService.getTasks(req.user.id);
   }
 
@@ -47,10 +47,11 @@ export class TaskController {
     description: 'The task has been successfully created',
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
-  createChat(
+  createTask(
     @Body() createTaskDto: TaskDto,
     @Request() req: { user: { id: string } },
   ): Promise<Task> {
+    console.log(req);
     return this.taskService.createTask(createTaskDto, req.user.id);
   }
 

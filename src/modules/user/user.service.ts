@@ -49,11 +49,11 @@ export class UserService {
       throw error;
     }
   }
-  async findOne(email: string): Promise<User> {
+  async findOne(userId: string): Promise<User> {
     try {
       return await this.userRepository.findOne({
         where: {
-          email,
+          id: userId,
         },
       });
     } catch (error) {

@@ -39,6 +39,7 @@ export class TaskService {
   }
   async createTask(createTaskDto: TaskDto, userId: string): Promise<Task> {
     try {
+      console.log(userId);
       const user = await this.userService.findOne(userId);
       if (!user) {
         throw new NotFoundException('User not found');
@@ -46,6 +47,7 @@ export class TaskService {
 
       const task = this.taskRepository.create({
         title: createTaskDto.title,
+        date: createTaskDto.date,
         content: createTaskDto.content ? createTaskDto.content : '',
         order: createTaskDto.order.toString(),
         user,
@@ -111,6 +113,10 @@ export class TaskService {
 
       if (taskData.content !== undefined) {
         task.content = taskData.content;
+      }
+
+      if (taskData.date !== undefined) {
+        task.date = taskData.date;
       }
 
       if (taskData.order !== undefined) {

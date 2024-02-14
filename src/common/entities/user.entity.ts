@@ -12,7 +12,7 @@ export class User extends CoreEntity {
   @Column({ type: 'varchar', name: 'name', default: '' })
   name: string;
 
-  @Column({ type: 'varchar', name: 'country', default: '' })
+  @Column({ type: 'varchar', name: 'country' })
   country: string;
 
   @OneToMany(() => Task, (task) => task.user, { onDelete: 'CASCADE' })

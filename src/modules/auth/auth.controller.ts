@@ -27,8 +27,9 @@ export class AuthController {
   @ApiOperation({ summary: 'Endpoint to sign in user with email and password' })
   @ApiBody({ type: AuthDto })
   @UseGuards(LocalAuthGuard)
-  login(@Request() req: UserType): Promise<UserResponseType> {
-    return this.authService.login(req);
+  login(@Request() req: { user: UserType }): Promise<UserResponseType> {
+    console.log(req);
+    return this.authService.login(req.user);
   }
 
   @Post(ApiPath.LOGOUT)
@@ -44,7 +45,9 @@ export class AuthController {
     status: 200,
     description: 'User token refreshed successfully',
   })
-  async refresh(@Request() req: UserType): Promise<UserResponseType> {
-    return this.authService.refresh(req);
+  @UseGuards(JwtAuthGuard)
+  async refresh(@Request() req: { user: UserType }): Promise<UserResponseType> {
+    console.log(req);
+    return this.authService.refresh(req.user);
   }
 }

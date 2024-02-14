@@ -7,6 +7,7 @@ import {
   MaxLength,
   MinLength,
   IsInt,
+  IsString,
 } from 'class-validator';
 
 import { Label } from 'src/common/entities';
@@ -36,6 +37,15 @@ export class TaskDto {
   @MinLength(1)
   @MaxLength(500)
   content?: string;
+
+  @ApiProperty({
+    example: '2012.12.12',
+    description: 'Task date field',
+  })
+  @IsString()
+  @MinLength(10)
+  @MaxLength(10)
+  date?: string;
 
   @ApiProperty({
     example: [
