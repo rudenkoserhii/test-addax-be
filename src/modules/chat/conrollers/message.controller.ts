@@ -12,7 +12,7 @@ import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'modules/auth/guards/jwt-auth.guard';
 import { CreateMessageDto } from 'modules/chat/dto/create-message.dto';
 import { MessageService } from 'modules/chat/services/message.service';
-import { Message } from 'src/common/entities/message.entity';
+import { Message } from 'src/common/entities/task.entity';
 import { MessageResponse } from 'src/common/types/message/message.type';
 
 @Controller('messages')

@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { Chat } from 'src/common/entities/chat.entity';
 import { ChatMessageLike } from 'src/common/entities/chatMessageLike.entity';
 import { ChatMessageReader } from 'src/common/entities/chatMessageReader.entity';
-import { Message } from 'src/common/entities/message.entity';
+import { Message } from 'src/common/entities/task.entity';
 import { User } from 'src/common/entities/user.entity';
 import { MessageResponse } from 'src/common/types/message/message.type';
 import { CreateMessageDto } from 'src/modules/chat/dto/create-message.dto';

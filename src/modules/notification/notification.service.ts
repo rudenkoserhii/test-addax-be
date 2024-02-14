@@ -6,7 +6,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 import { Notification } from 'src/common/entities/notification.entity';
 import { NotificationPayload } from 'src/common/types';
-import { NotificationToUser } from 'src/common/entities/notificationToUser';
+import { NotificationToUser } from 'src/common/entities/label.entity';
 
 @Injectable()
 export class NotificationService {

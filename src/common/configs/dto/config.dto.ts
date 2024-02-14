@@ -27,31 +27,4 @@ export class ConfigDto {
   @IsNotEmpty()
   @IsString()
   JWT_SECRET: string;
-
-  @IsString()
-  MAIL_USER: string;
-
-  @IsString()
-  MAIL_PASS: string;
-
-  @IsString()
-  QOBRIX_BASE_URL: string;
-
-  @IsString()
-  QOBRIX_API_KEY: string;
-
-  @IsString()
-  QOBRIX_API_USER: string;
-
-  @IsString()
-  CLOUDINARY_CLOUD_NAME: string;
-
-  @IsString()
-  CLOUDINARY_API_KEY: string;
-
-  @IsString()
-  CLOUDINARY_API_SECRET: string;
-
-  @IsString()
-  QOBRIX_PROXY_URL: string;
 }

@@ -16,7 +16,7 @@ import { CloudinaryService } from 'modules/cloudinary/cloudinary.service';
 import { HTTPService } from 'modules/http/http.service';
 import { Chat } from 'src/common/entities/chat.entity';
 import { User } from 'src/common/entities/user.entity';
-import { Message } from 'src/common/entities/message.entity';
+import { Message } from 'src/common/entities/task.entity';
 import {
   UserAuthResponse,
   UserInfoResponse,

@@ -8,7 +8,7 @@ import { ConfigService } from 'common/configs/config.service';
 import { CloudinaryService } from 'modules/cloudinary/cloudinary.service';
 import { User } from 'src/common/entities/user.entity';
 import { Chat } from 'src/common/entities/chat.entity';
-import { Message } from 'src/common/entities/message.entity';
+import { Message } from 'src/common/entities/task.entity';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { HTTPService } from '../http/http.service';
