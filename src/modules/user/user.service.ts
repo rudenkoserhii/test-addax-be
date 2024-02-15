@@ -60,4 +60,15 @@ export class UserService {
       throw new Error(`Error finding user: ${error.message}`);
     }
   }
+  async findOneByEmail(email: string): Promise<User> {
+    try {
+      return await this.userRepository.findOne({
+        where: {
+          email,
+        },
+      });
+    } catch (error) {
+      throw new Error(`Error finding user: ${error.message}`);
+    }
+  }
 }

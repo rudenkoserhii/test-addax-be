@@ -28,7 +28,6 @@ export class AuthController {
   @ApiBody({ type: AuthDto })
   @UseGuards(LocalAuthGuard)
   login(@Request() req: { user: UserType }): Promise<UserResponseType> {
-    console.log(req);
     return this.authService.login(req.user);
   }
 
@@ -47,7 +46,6 @@ export class AuthController {
   })
   @UseGuards(JwtAuthGuard)
   async refresh(@Request() req: { user: UserType }): Promise<UserResponseType> {
-    console.log(req);
     return this.authService.refresh(req.user);
   }
 }

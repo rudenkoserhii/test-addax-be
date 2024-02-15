@@ -12,7 +12,7 @@ import {
 
 import { Label } from 'src/common/entities';
 
-export class TaskDto {
+export class TaskRequestDto {
   @ApiProperty({
     example: '3f9694ae-3241-48ef-b16b-32dc7d23e1d9',
     description: 'Task id',
@@ -75,6 +75,6 @@ export class TaskDto {
     description: 'Task order number',
   })
   @IsNotEmpty()
-  @IsString()
-  order: string;
+  @IsInt()
+  order: number;
 }

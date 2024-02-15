@@ -5,9 +5,8 @@ type TaskType = {
   date?: string;
   title?: string;
   content?: string;
-  owner?: { id: string };
   label?: LabelType[];
-  order?: number;
+  order?: string;
 };
 
 export { type TaskType };

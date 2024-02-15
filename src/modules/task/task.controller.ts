@@ -17,10 +17,12 @@ import {
 } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from 'modules/auth/guards/jwt-auth.guard';
+import { TaskRequestDto } from 'modules/task/dto/task-request.dto';
 import { TaskDto } from 'modules/task/dto/task.dto';
 import { TaskService } from 'modules/task/task.service';
 import { Task } from 'src/common/entities';
 import { ApiPath } from 'src/common/enums';
+import { TaskResponseType } from 'src/common/types/task-response.type';
 
 @Controller(ApiPath.CALENDAR)
 @ApiBearerAuth()
@@ -32,7 +34,9 @@ export class TaskController {
   @ApiOperation({ summary: 'Getting all tasks' })
   @ApiResponse({ status: 200, description: 'OK' })
   @ApiResponse({ status: 404, description: 'Not found' })
-  getTasks(@Request() req: { user: { id: string } }): Promise<Task[]> {
+  getTasks(
+    @Request() req: { user: { id: string } },
+  ): Promise<TaskResponseType[]> {
     return this.taskService.getTasks(req.user.id);
   }
 
@@ -48,11 +52,13 @@ export class TaskController {
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   createTask(
-    @Body() createTaskDto: TaskDto,
+    @Body() createTaskDto: TaskRequestDto,
     @Request() req: { user: { id: string } },
-  ): Promise<Task> {
-    console.log(req);
-    return this.taskService.createTask(createTaskDto, req.user.id);
+  ): Promise<TaskResponseType> {
+    return this.taskService.createTask(
+      { ...createTaskDto, order: createTaskDto.order.toString() },
+      req.user.id,
+    );
   }
 
   @Delete(':id')
@@ -69,10 +75,13 @@ export class TaskController {
   @ApiResponse({ status: 400, description: 'Bad request' })
   async updateTask(
     @Param('id') id: string,
-    @Body() taskData: TaskDto,
-  ): Promise<Task> {
+    @Body() taskData: TaskRequestDto,
+  ): Promise<TaskResponseType> {
     try {
-      return await this.taskService.updateTask(id, taskData);
+      return await this.taskService.updateTask(id, {
+        ...taskData,
+        order: taskData.order.toString(),
+      });
     } catch (error) {
       throw error;
     }

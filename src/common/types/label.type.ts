@@ -3,7 +3,7 @@ type LabelType = {
   date?: string;
   color?: string;
   text?: string;
-  order?: number;
+  order?: string;
   task?: { id: string };
 };
 

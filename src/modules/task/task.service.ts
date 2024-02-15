@@ -10,6 +10,7 @@ import { DeepPartial, Repository } from 'typeorm';
 
 import { TaskDto } from 'modules/task/dto/task.dto';
 import { Task, Label } from 'src/common/entities';
+import { TaskResponseType } from 'src/common/types/task-response.type';
 import { UserService } from 'src/modules/user/user.service';
 
 @Injectable()
@@ -23,7 +24,7 @@ export class TaskService {
     private userService: UserService,
   ) {}
 
-  async getTasks(userId: string): Promise<Task[]> {
+  async getTasks(userId: string): Promise<TaskResponseType[]> {
     try {
       const tasks = await this.taskRepository
         .createQueryBuilder('task')
@@ -32,14 +33,37 @@ export class TaskService {
         .where('user.id = :userId', { userId })
         .getMany();
 
-      return tasks;
+      const response = tasks.map((task) => {
+        return {
+          id: task.id,
+          date: task.date,
+          title: task.title,
+          content: task.content ? task.content : '',
+          order: Number(task.order),
+          labels:
+            task.labels && task.labels.length > 0
+              ? task.labels.map((label) => {
+                  return {
+                    id: label.id,
+                    color: label.color,
+                    text: label.text ? label.text : '',
+                    order: Number(label.order),
+                  };
+                })
+              : [],
+        };
+      });
+
+      return response;
     } catch (error) {
       throw error;
     }
   }
-  async createTask(createTaskDto: TaskDto, userId: string): Promise<Task> {
+  async createTask(
+    createTaskDto: TaskDto,
+    userId: string,
+  ): Promise<TaskResponseType> {
     try {
-      console.log(userId);
       const user = await this.userService.findOne(userId);
       if (!user) {
         throw new NotFoundException('User not found');
@@ -49,14 +73,14 @@ export class TaskService {
         title: createTaskDto.title,
         date: createTaskDto.date,
         content: createTaskDto.content ? createTaskDto.content : '',
-        order: createTaskDto.order.toString(),
+        order: createTaskDto.order,
         user,
       } as DeepPartial<Task>);
 
       const newTask = await this.taskRepository.save(task);
 
-      if (createTaskDto.label && createTaskDto.label.length > 0) {
-        const labels = createTaskDto.label.map((labelData) => {
+      if (createTaskDto.labels && createTaskDto.labels.length > 0) {
+        const labels = createTaskDto.labels.map((labelData) => {
           const label = this.labelRepository.create({
             ...labelData,
             task: newTask,
@@ -67,7 +91,26 @@ export class TaskService {
         await this.labelRepository.save(labels);
       }
 
-      return newTask;
+      const response = {
+        id: newTask.id,
+        date: newTask.date,
+        title: newTask.title,
+        content: newTask.content ? task.content : '',
+        order: Number(newTask.order),
+        labels:
+          newTask.labels && newTask.labels.length > 0
+            ? newTask.labels.map((label) => {
+                return {
+                  id: label.id,
+                  color: label.color,
+                  text: label.text ? label.text : '',
+                  order: Number(label.order),
+                };
+              })
+            : [],
+      };
+
+      return response;
     } catch (error) {
       throw error;
     }
@@ -96,7 +139,7 @@ export class TaskService {
     }
   }
 
-  async updateTask(id: string, taskData: TaskDto): Promise<Task> {
+  async updateTask(id: string, taskData: TaskDto): Promise<TaskResponseType> {
     try {
       const task = await this.taskRepository.findOneOrFail({
         where: { id },
@@ -123,41 +166,68 @@ export class TaskService {
         task.order = taskData.order.toString();
       }
 
-      if (taskData.label && taskData.label.length > 0) {
+      await this.taskRepository.save(task);
+
+      if (taskData.labels && taskData.labels.length > 0) {
         const existingLabels = task.labels;
+
+        task.labels.forEach((existingLabel) => {
+          const updatedLabel = taskData.labels.find(
+            (newLabel) => newLabel.id === existingLabel.id,
+          );
+
+          if (updatedLabel) {
+            existingLabel.color = updatedLabel.color;
+            existingLabel.text = updatedLabel.text;
+            existingLabel.order = updatedLabel.order;
+          }
+        });
+
+        const newLabels = taskData.labels.filter((label) => !label.id);
+        const createdLabels = newLabels.map((labelData) => {
+          const newLabel = this.labelRepository.create({
+            ...labelData,
+            task,
+          });
+          return newLabel;
+        });
+        await this.labelRepository.save([...createdLabels, ...task.labels]);
+
         const labelsToRemove = existingLabels.filter(
           (existingLabel) =>
-            !taskData.label.find(
+            !taskData.labels.find(
               (newLabel) => newLabel.id === existingLabel.id,
             ),
         );
+
         await this.labelRepository.remove(labelsToRemove);
-
-        await Promise.all(
-          taskData.label.map(async (newLabelData) => {
-            let label = task.labels.find(
-              (existingLabel) => existingLabel.id === newLabelData.id,
-            );
-
-            if (label) {
-              label.color = newLabelData.color;
-              label.text = newLabelData.text;
-              label.order = newLabelData.order;
-            } else {
-              label = this.labelRepository.create({
-                ...newLabelData,
-                task,
-              });
-            }
-
-            await this.labelRepository.save(label);
-          }),
-        );
       }
 
-      const updatedTask = await this.taskRepository.save(task);
+      const updatedTask = await this.taskRepository.findOneOrFail({
+        where: { id },
+        relations: ['labels'],
+      });
 
-      return updatedTask;
+      const response = {
+        id: updatedTask.id,
+        date: updatedTask.date,
+        title: updatedTask.title,
+        content: updatedTask.content ? task.content : '',
+        order: Number(updatedTask.order),
+        labels:
+          updatedTask.labels && updatedTask.labels.length > 0
+            ? updatedTask.labels.map((label) => {
+                return {
+                  id: label.id,
+                  color: label.color,
+                  text: label.text ? label.text : '',
+                  order: Number(label.order),
+                };
+              })
+            : [],
+      };
+
+      return response;
     } catch (error) {
       throw error;
     }
